@@ -1,0 +1,78 @@
+.showcase {
+  margin-top: 30px;
+  :global {
+    .ant-card {
+      border-radius: 6px;
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    }
+    .ant-card-head {
+      border-bottom: 0;
+      border-radius: 6px;
+    }
+    .ant-card-head-title{
+      overflow: visible !important;
+    }
+    .ant-card-body {
+      padding: 24px 24px 0px 24px;
+    }
+  }
+
+  .card-header {
+    color: #FFFFFF;
+    border-radius: 3px;
+    position: relative;
+    top: -20px;
+    display: inline-block;
+    float: left;
+    text-align: center;
+
+    &.yellow {
+      background: linear-gradient(60deg, #ffa726, #fb8c00);
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+    }
+
+    &.pink {
+      background: linear-gradient(60deg, #ec407a, #d81b60);
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4);
+    }
+
+    &.blue {
+      background: linear-gradient(60deg, #26c6da, #00acc1);
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+    }
+
+    &.green {
+      background: linear-gradient(60deg, #66bb6a, #43a047);
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(76, 175, 80, 0.4);
+    }
+
+    h4 {
+      color: #FFFFFF;
+      padding: 10px 15px;
+      font-size: 40px;
+    }
+  }
+
+  .card-content {
+    text-align: right;
+
+    .category {
+      color: #999;
+    }
+
+    h3 {
+      line-height: 0.5;
+      font-size: 1.825em;
+      font-weight: 300;
+    }
+  }
+
+  .card-footer {
+    margin: 10px 0;
+    padding-top: 5px;
+    color: #999;
+    font-size: 12px;
+    position: relative;
+    border-top: 1px solid #eee;
+  }
+}
