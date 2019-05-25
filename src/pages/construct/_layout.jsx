@@ -16,7 +16,7 @@ class Construct extends React.Component {
       return (
         <div>
           <Modal visible={true} footer={null} closable={false}>
-            请前往<Link to='./'>首页</Link>选择学科和课程～
+            请前往<Link to='/'>首页</Link>选择学科和课程～
           </Modal>
         </div>
       );
@@ -25,7 +25,8 @@ class Construct extends React.Component {
     return (
       <div className={styles.normal}>
         <ConstructStep current={step} />
-        <Topicextract />
+        {/*<Topicextract />*/}
+        { this.props.children }
       </div>
     );
   }

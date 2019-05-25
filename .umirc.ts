@@ -2,12 +2,12 @@ import { IConfig } from 'umi-types';
 
 // ref: https://umijs.org/config/
 const config: IConfig =  {
-  base: './',
+  base: '/react-course-knowledgegraph/',
   treeShaking: true,
   publicPath: "./",
   exportStatic: {
-    htmlSuffix: true,
-    dynamicRoot: true,
+    // htmlSuffix: true,
+    // dynamicRoot: true,
   },
   // history: 'hash',
   plugins: [

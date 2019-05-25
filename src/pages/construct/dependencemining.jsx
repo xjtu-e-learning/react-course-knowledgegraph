@@ -45,7 +45,6 @@ class Dependencemining extends React.Component {
     const { topicList, miningState, dependenceList, step } = this.props.construct;
     return (
       <div>
-        <ConstructStep current={step}/>
         <div style={{marginBottom: 16}}>
           <span><b>学科：</b>{currentSubjectAndDomain[0]}</span>
           <span style={{paddingLeft: '16px', paddingRight: 16}}><b>课程：</b>{currentSubjectAndDomain[1]}</span>

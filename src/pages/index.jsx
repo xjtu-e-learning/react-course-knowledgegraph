@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
 
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-            <Forest {...kfdataProps}/>
+            <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain}/>
           </Col>
         </Row>
       </div>

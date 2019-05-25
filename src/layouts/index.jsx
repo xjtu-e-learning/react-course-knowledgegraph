@@ -19,12 +19,12 @@ class BasicLayout extends React.Component{
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-              <Link to="./">
+              <Link to="/">
                 首页
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="./construct">
+              <Link to="/construct/topicextract">
                 构建
               </Link>
             </Menu.Item>
