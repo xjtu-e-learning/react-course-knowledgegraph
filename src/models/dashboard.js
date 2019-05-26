@@ -34,6 +34,20 @@ export default {
     assembleCountGroupByDomainId: [],
     firstLayerFacetCountGroupByTopicId: [],
     topicCountGroupByDomainId: [],
+    queryString: '',
+    querySubjectName: '',
+    queryDomainName: '',
+    queryTopicName: '',
+    queryFacetName: '',
+    queryFacetLayer: '',
+    queryAssembleSource: '',
+    queryAssembleType: '',
+    queryPage: 0,
+    querySize: 10,
+    queryAssembleResult: {},
+    queryFilterResult: {},
+    queryCount: 0,
+    queryUseTime: '0ms',
   },
   subscriptions: {
     setup ({ dispatch, history }) {
@@ -243,6 +257,48 @@ export default {
         }
       })
     },
+    *getQuery(action, { put, call }){
+      const result = yield call(axios, {
+        url: 'http://yotta.xjtushilei.com:8041/es/search',
+        method: 'get',
+        params: {
+          q: action.payload.queryString,
+          subjectName: action.payload.querySubjectName,
+          domainName: action.payload.queryDomainName,
+          topicName: action.payload.queryTopicName,
+          facetName: action.payload.queryFacetName,
+          facetLayer: action.payload.queryFacetLayer,
+          assembleSource: action.payload.queryAssembleSource,
+          assembleType: action.payload.queryAssembleType,
+          page: action.payload.queryPage,
+          size: action.payload.querySize,
+        }
+      });
+      yield put({
+        type: 'updateQueryFilterResult',
+        payload: {
+          queryFilterResult: result.data.aggs
+        }
+      });
+      yield put({
+        type: 'updateQueryAssembleResult',
+        payload: {
+          queryAssembleResult: result.data.hits
+        }
+      });
+      yield put({
+        type: 'updateQueryCount',
+        payload: {
+          queryCount: result.data.total,
+        }
+      });
+      yield put({
+        type: 'updateQueryUseTime',
+        payload: {
+          queryUseTime: result.data.usetime,
+        }
+      })
+    }
   },
   reducers: {
     add(state, action){
@@ -341,5 +397,75 @@ export default {
         ...state, assembleCountGroupByDomainId: action.payload.assembleCountGroupByDomainId
       }
     },
+    updateQueryString(state, action){
+      return {
+        ...state, queryString: action.payload.queryString
+      }
+    },
+    updateQuerySubjectName(state, action){
+      return {
+        ...state, querySubjectName: action.payload.querySubjectName
+      }
+    },
+    updateQueryDomainName(state, action){
+      return {
+        ...state, queryDomainName: action.payload.queryDomainName
+      }
+    },
+    updateQueryTopicName(state, action){
+      return {
+        ...state, queryTopicName: action.payload.queryTopicName
+      }
+    },
+    updateQueryFacetName(state, action){
+      return {
+        ...state, queryFacetName: action.payload.queryFacetName
+      }
+    },
+    updateQueryFacetLayer(state, action){
+      return {
+        ...state, queryFacetLayer: action.payload.queryFacetLayer
+      }
+    },
+    updateQueryAssembleSource(state, action){
+      return {
+        ...state, queryAssembleSource: action.payload.queryAssembleSource
+      }
+    },
+    updateQueryAssembleType(state, action){
+      return {
+        ...state, queryAssembleType: action.payload.queryAssembleType
+      }
+    },
+    updateQueryPage(state, action){
+      return {
+        ...state, queryPage: action.payload.queryPage
+      }
+    },
+    updateQuerySize(state, action){
+      return {
+        ...state, querySize: action.payload.querySize
+      }
+    },
+    updateQueryAssembleResult(state, action){
+      return {
+        ...state, queryAssembleResult: action.payload.queryAssembleResult
+      }
+    },
+    updateQueryFilterResult(state, action){
+      return {
+        ...state, queryFilterResult: action.payload.queryFilterResult
+      }
+    },
+    updateQueryCount(state, action){
+      return {
+        ...state, queryCount: action.payload.queryCount
+      }
+    },
+    updateQueryUseTime(state, action){
+      return {
+        ...state, queryUseTime: action.payload.queryUseTime
+      }
+    }
   }
 }

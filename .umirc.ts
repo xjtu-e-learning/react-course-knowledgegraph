@@ -30,6 +30,13 @@ const config: IConfig =  {
       },
     }],
   ],
+  proxy: {
+    "/api": {
+      "target": "http://yotta.xjtushilei.com:8041/es/search",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api" : "" }
+    }
+  }
 }
 
 export default config;
