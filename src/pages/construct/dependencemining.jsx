@@ -40,7 +40,7 @@ class Dependencemining extends React.Component {
   }
 
   render() {
-    const { currentSubjectAndDomain, options } = this.props.dashboard;
+    const { currentSubjectAndDomain, options, kfdata } = this.props.dashboard;
     if(currentSubjectAndDomain.length !== 2 || options.length === 0) return null;
     const { topicList, miningState, dependenceList, step } = this.props.construct;
     return (
@@ -70,8 +70,8 @@ class Dependencemining extends React.Component {
             </Menu>
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 600 }}>
-            {miningState !== 'finish' ? <Nodechart topicList={topicList} /> : <Dependencechart topicList={topicList} dependenceList={dependenceList} />}
-
+            {/*{miningState !== 'finish' ? <Nodechart topicList={topicList} /> : <Dependencechart topicList={topicList} dependenceList={dependenceList} />}*/}
+            <Dependencechart topicList={topicList} dependenceList={dependenceList} kfdata={kfdata} />
           </Content>
         </Layout>
       </div>

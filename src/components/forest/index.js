@@ -34,6 +34,7 @@ class Forest extends React.Component {
       };
 
     });
+    console.log(graph)
     let communitySize = [];
     for (var i = 0; i <= communityCount; i++) {
       categories[i] = {name: '社团' + (i+1)};

@@ -88,17 +88,40 @@ export default {
         }
       });
 
-      for(let topic of action.payload.topicList){
+      for(let topic of action.payload.topicList) {
         const result = yield call(axios, {
-          url: 'http://yotta.xjtushilei.com:8083/facet/getFirstLayerFacetsByDomainNameAndTopicName?domainName='+ action.payload.domainName +'&topicName=' + encodeURIComponent(topic.topicName),
+          url: 'http://yotta.xjtushilei.com:8083/facet/getFirstLayerFacetsByDomainNameAndTopicName?domainName=' + action.payload.domainName + '&topicName=' + encodeURIComponent(topic.topicName),
           method: 'get',
         });
+
+        let facetList = result.data.data;
 
         yield put({
           type: 'updateFacetList',
           payload: {
             topicName: topic.topicName,
-            facetList: result.data.data,
+            facetList,
+          }
+        });
+
+        let assembleList = {
+          topicName: topic.topicName,
+          data: {}
+        };
+
+        for (let facet of facetList) {
+          const result = yield call(axios, {
+            url: `http://yotta.xjtushilei.com:8083/assemble/getAssemblesInFirstLayerFacet?domainName=${action.payload.domainName}&topicName=${encodeURIComponent(topic.topicName)}&firstLayerFacetName=${encodeURIComponent(facet.facetName)}`,
+            method: 'get'
+          });
+
+          assembleList.data[facet.facetName] = result.data.data;
+        }
+
+        yield put({
+          type: 'updateAssembleList',
+          payload: {
+            assemble: assembleList
           }
         })
       }
@@ -107,52 +130,15 @@ export default {
         payload: {
           discoverState: 'finish'
         }
-      })
-    },
-    *getAssembles(action, { put, call }){
-      yield put({
-        type: 'updateCrawlState',
-        payload: {
-          crawlState: 'processing'
-        }
       });
 
-      const domainName = action.payload.domainName;
-      const topicList = action.payload.topicList;
-      const facetList = action.payload.facetList;
-
-      for(let topic of topicList){
-        if(facetList[topic.topicName] !== undefined){
-          for(let facet of facetList[topic.topicName]){
-            if(facet.facetName === '匿名分面') continue;
-            const result = yield call(axios, {
-              url: `http://yotta.xjtushilei.com:8083/assemble/getAssemblesInFirstLayerFacet?domainName=${domainName}&topicName=${encodeURIComponent(topic.topicName)}&firstLayerFacetName=${encodeURIComponent(facet.facetName)}`,
-              method: 'get'
-            });
-            let tmp = {
-              id: topic.topicId + '&' + facet.facetId,
-              data: result.data.data,
-              name: topic.topicName + '/' + facet.facetName,
-              facet: facet.facetName,
-              topicName: topic.topicName,
-            }
-            yield put({
-              type: 'updateAssembleList',
-              payload: {
-                assemble: tmp
-              }
-            })
-          }
-        }
-      }
-
       yield put({
-        type: 'updateCrawlState',
+        type: 'updateStep',
         payload: {
-          crawlState: 'finish'
+          step: 3
         }
       })
-    }
+    },
   },
   reducers: {
     updateTopicList(state, action){

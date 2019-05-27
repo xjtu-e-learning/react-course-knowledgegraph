@@ -28,12 +28,12 @@ class Nodechart extends React.Component {
       };
     });
     let option = {
-      title: {
-        text: 'Les Miserables',
-        subtext: 'Default layout',
-        top: 'bottom',
-        left: 'right'
-      },
+      // title: {
+      //   text: 'Les Miserables',
+      //   subtext: 'Default layout',
+      //   top: 'bottom',
+      //   left: 'right'
+      // },
       tooltip: {},
       animation: false,
       series : [
