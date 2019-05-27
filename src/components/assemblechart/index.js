@@ -4,9 +4,31 @@ import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/graph';
 import 'echarts/lib/chart/pie';
 import dataTool from '../../lib/dataTool';
+import { Modal } from 'antd';
+import SingleAssemble from '../SingleAssemble';
 
 
 class Assemblechart extends React.Component {
+
+  state = {
+    visible: false,
+    currentAssembleList: [],
+    topicAndFacet: ''
+  };
+
+  showModal = (value) => {
+    this.setState({
+      visible: true,
+      currentAssembleList: value.data,
+      topicAndFacet: value.id
+    })
+  };
+
+  handleCancel = e => {
+    this.setState({
+      visible: false,
+    });
+  };
 
   render() {
     const { topicList, dependenceList, assembleList, kfdata } = this.props;
@@ -191,9 +213,34 @@ class Assemblechart extends React.Component {
       ]
     };
 
-    return (
-      <ReactEchartsCore echarts={echarts} option={option} style={{ height: '600px', width: '800px', margin: 'auto' }}/>
-    );
+    return ([
+      <ReactEchartsCore ref={(e) => {this.echarts_react = e}} echarts={echarts} option={option} style={{ height: '600px', width: '800px', margin: 'auto' }}/>,
+      <Modal
+        title={this.state.topicAndFacet}
+        visible={this.state.visible}
+        onCancel={this.handleCancel}
+        width={800}
+        footer={null}
+      >
+        {this.state.currentAssembleList.map(element =>{
+          element.assemble_content = element.assembleContent;
+          return <SingleAssemble hitAssemble={element}/>;
+        }
+        )}
+      </Modal>
+      ]);
+  }
+
+  componentDidMount() {
+    let echarts_instance = this.echarts_react.getEchartsInstance();
+    let showModal = this.showModal;
+    echarts_instance.on('click', function(params) {
+      console.log(params);
+      if(params.dataType === 'node'){
+        // this.setState({currentAssembleList: });
+        showModal(params.data);
+      }
+    });
   }
 }
 
