@@ -21,7 +21,7 @@ export default {
         color: 'blue',
       }, {
         icon: 'profile',
-        title: '知识碎片',
+        title: '知识单元',
         number: 0,
         color: 'yellow',
       }
@@ -168,7 +168,7 @@ export default {
       for(let topic of topicList){
         let tmp = {};
         tmp.name = topic.topicName;
-        tmp['知识碎片'] = assembleCount[topic.topicId];
+        tmp['知识单元'] = assembleCount[topic.topicId];
         tmpList.push(tmp);
       }
       yield put({
@@ -247,7 +247,7 @@ export default {
       for(let domain of domains){
         let tmp = {};
         tmp.name = domain.label;
-        tmp['知识碎片'] = assembleCount[domain.value];
+        tmp['知识单元'] = assembleCount[domain.value];
         tmpList.push(tmp);
       }
       yield put({
@@ -329,7 +329,7 @@ export default {
             color: 'blue',
           }, {
             icon: 'profile',
-            title: '知识碎片',
+            title: '知识单元',
             number: action.payload.assembleCount,
             color: 'yellow',
           }

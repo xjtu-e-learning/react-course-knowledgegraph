@@ -40,7 +40,7 @@ class Visualization extends React.Component {
           <span><b>学科：</b>{currentSubjectAndDomain[0]}</span>
           <span style={{paddingLeft: '16px', paddingRight: 16}}><b>课程：</b>{currentSubjectAndDomain[1]}</span>
           <Button type="primary" onClick={this.startExtract}>
-            {discoverState === 'start' && '开始属性挖掘&知识碎片集成'}
+            {discoverState === 'start' && '开始属性挖掘&知识单元集成'}
             {discoverState !== 'start' && (discoverState === 'processing' ? '挖掘中' : '挖掘完成')}
             {discoverState !== 'start' && (discoverState === 'processing' ? <Icon type="loading" /> : <Icon type="check" />)}
           </Button>
