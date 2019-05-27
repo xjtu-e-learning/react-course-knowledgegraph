@@ -44,7 +44,7 @@ export default {
     queryAssembleType: '',
     queryPage: 0,
     querySize: 10,
-    queryAssembleResult: {},
+    queryAssembleResult: [],
     queryFilterResult: {},
     queryCount: 0,
     queryUseTime: '0ms',
@@ -258,6 +258,14 @@ export default {
       })
     },
     *getQuery(action, { put, call }){
+
+      yield put({
+        type: 'updateQueryString',
+        payload: {
+          queryString: action.payload.queryString,
+        }
+      });
+
       const result = yield call(axios, {
         url: 'http://yotta.xjtushilei.com:8041/es/search',
         method: 'get',

@@ -12,15 +12,35 @@ const { Header, Content, Footer } = Layout;
 
 class BasicLayout extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.state = {defaultSelectedKeys: ['1']};
+  }
+
+  componentWillMount(){
+    if(this.props.location.pathname === '/'){
+      this.setState({defaultSelectedKeys: ['1']});
+    }else if(this.props.location.pathname.match(/search/)){
+      this.setState({defaultSelectedKeys: ['3']});
+    }else if(this.props.location.pathname.match(/construct/)){
+      this.setState({defaultSelectedKeys: ['2']});
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.location.pathname === '/'){
+      this.setState({defaultSelectedKeys: ['1']});
+    }else if(nextProps.location.pathname.match(/search/)){
+      this.setState({defaultSelectedKeys: ['3']});
+    }else if(nextProps.location.pathname.match(/construct/)){
+      this.setState({defaultSelectedKeys: ['2']});
+    }
+  }
+
   searchFunction = (value) => {
+    if(value === '') return;
     const { dispatch } = this.props;
-    dispatch({
-      type: 'dashboard/updateQueryString',
-      payload: {
-        queryString: value,
-      }
-    });
-    const { queryString,
+    const {
       querySubjectName,
       queryDomainName,
       queryTopicName,
@@ -34,7 +54,7 @@ class BasicLayout extends React.Component{
     dispatch({
       type: 'dashboard/getQuery',
       payload: {
-        queryString,
+        queryString: value,
         querySubjectName,
         queryDomainName,
         queryTopicName,
@@ -58,7 +78,7 @@ class BasicLayout extends React.Component{
           <Menu
             theme="dark"
             mode="horizontal"
-            // defaultSelectedKeys={props.location.pathname === '/' ? ['1'] : ['2']}
+            selectedKeys={this.state.defaultSelectedKeys}
             style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">

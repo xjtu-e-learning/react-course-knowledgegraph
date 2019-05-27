@@ -8,9 +8,13 @@ class SingleFilter extends React.Component {
   render() {
     const { filterTopic, content } = this.props;
     let topics = [];
-    for(let key in content){
-      topics.push([key, content[key]]);
+    for(let i in content){
+      console.log(content);
+      for(let key in content[i]){
+        topics.push([key, content[i][key]]);
+      }
     }
+    // console.log(content)
     return (
       <div>
         <h4>
