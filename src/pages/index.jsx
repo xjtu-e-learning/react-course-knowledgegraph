@@ -91,11 +91,11 @@ class Dashboard extends React.Component {
             {
               (currentSubjectAndDomain.length === 2 && <div>
                 <Barchart data={firstLayerFacetCountGroupByTopicId} dataKey='属性'/>
-                <Barchart data={assembleCountGroupByTopicId} dataKey='知识碎片'/>
+                <Barchart data={assembleCountGroupByTopicId} dataKey='知识单元'/>
               </div>) ||
               (currentSubjectAndDomain.length === 1 && <div>
                 <Barchart data={topicCountGroupByDomainId} dataKey='知识主题'/>
-                <Barchart data={assembleCountGroupByDomainId} dataKey='知识碎片'/>
+                <Barchart data={assembleCountGroupByDomainId} dataKey='知识单元'/>
               </div>)
             }
 

@@ -30,24 +30,8 @@ class Visualization extends React.Component {
     }
   }
 
-  startCrawl = () => {
-    const { currentSubjectAndDomain } = this.props.dashboard;
-    const { topicList, facetList } = this.props.construct;
-    const { dispatch } = this.props;
-    if(currentSubjectAndDomain.length === 2){
-      dispatch({
-        type: 'construct/getAssembles',
-        payload: {
-          domainName: currentSubjectAndDomain[1],
-          topicList,
-          facetList
-        }
-      })
-    }
-  }
-
   render() {
-    const { currentSubjectAndDomain, options } = this.props.dashboard;
+    const { currentSubjectAndDomain, options, kfdata } = this.props.dashboard;
     if(currentSubjectAndDomain.length !== 2 || options.length === 0) return null;
     const { topicList, step, dependenceList, facetList, discoverState, assembleList } = this.props.construct;
     return (
@@ -56,11 +40,10 @@ class Visualization extends React.Component {
           <span><b>学科：</b>{currentSubjectAndDomain[0]}</span>
           <span style={{paddingLeft: '16px', paddingRight: 16}}><b>课程：</b>{currentSubjectAndDomain[1]}</span>
           <Button type="primary" onClick={this.startExtract}>
-            {discoverState === 'start' && '开始属性挖掘&知识碎片集成'}
+            {discoverState === 'start' && '开始属性挖掘&知识单元集成'}
             {discoverState !== 'start' && (discoverState === 'processing' ? '挖掘中' : '挖掘完成')}
             {discoverState !== 'start' && (discoverState === 'processing' ? <Icon type="loading" /> : <Icon type="check" />)}
           </Button>
-          {discoverState === 'finish' && <Button style={{marginLeft: 16}} type={"primary"} onClick={this.startCrawl}>采集知识碎片</Button>}
         </div>
 
         <Layout style={{ padding: '24px 0', background: '#fff' }}>
@@ -87,7 +70,7 @@ class Visualization extends React.Component {
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 600 }}>
             {/*{miningState !== 'finish' ? <Nodechart topicList={topicList} /> : <Dependencechart topicList={topicList} dependenceList={dependenceList} />}*/}
-            <Assemblechart topicList={topicList} dependenceList={dependenceList} assembleList={assembleList}/>
+            <Assemblechart topicList={topicList} dependenceList={dependenceList} assembleList={assembleList} kfdata={kfdata}/>
           </Content>
         </Layout>
       </div>
