@@ -2,6 +2,8 @@ import React from 'react';
 import HTMLEllipsis from 'react-lines-ellipsis/lib/html';
 import LinesEllipsis from 'react-lines-ellipsis'
 import { Card } from 'antd';
+import './index.css';
+
 class SingleAssemble extends React.Component {
   constructor(props){
     super(props);
@@ -17,7 +19,7 @@ class SingleAssemble extends React.Component {
   render(){
     const { hitAssemble } = this.props;
     return (
-      <Card title={''}>
+      <Card title={hitAssemble.subject_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.domain_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.facet_name.replace(/<[^>]+>/g,"")}>
         {
           this.state.replicate ?
             <div onClick={this.onClick}>
