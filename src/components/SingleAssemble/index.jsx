@@ -14,9 +14,15 @@ class SingleAssemble extends React.Component {
 
   onClick = () => {
     this.setState({replicate : !this.state.replicate});
-  }
+  };
+
+  componentWillReceiveProps = ()=>{
+    this.setState({replicate: true})
+  };
+
 
   render(){
+    console.log(this.state.replicate);
     const { hitAssemble } = this.props;
     return (
       <Card title={hitAssemble.subject_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.domain_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.facet_name.replace(/<[^>]+>/g,"")}>
