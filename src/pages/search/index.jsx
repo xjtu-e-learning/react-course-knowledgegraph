@@ -26,35 +26,28 @@ class ESearch extends React.Component {
   }
 
   searchFunction = (value) => {
-    console.log(value);
+    // console.log(value);
     if (value === '') return;
     const { dispatch } = this.props;
     const {
-      querySubjectName,
-      queryDomainName,
-      queryTopicName,
-      queryFacetName,
-      queryFacetLayer,
-      queryAssembleSource,
-      queryAssembleType,
-      queryPage,
       querySize,
     } = this.props.dashboard;
     dispatch({
       type: 'dashboard/getQuery',
       payload: {
         queryString: value,
-        querySubjectName,
-        queryDomainName,
-        queryTopicName,
-        queryFacetName,
-        queryFacetLayer,
-        queryAssembleSource,
-        queryAssembleType,
+        querySubjectName:'',
+        queryDomainName:'',
+        queryTopicName:'',
+        queryFacetName:'',
+        queryFacetLayer:'',
+        queryAssembleSource:'',
+        queryAssembleType:'',
         queryPage:0,
         querySize,
       },
     });
+
   };
 
   onPageChange = (page, pageSize) => {
@@ -88,6 +81,130 @@ class ESearch extends React.Component {
 
   };
 
+  onFilterChange = (filterType, e) => {
+    let selectedItem = (e.target.value === '全部')?'':e.target.value;
+    const { dispatch } = this.props;
+    const {
+      queryString,
+      querySubjectName,
+      queryDomainName,
+      queryTopicName,
+      queryFacetName,
+      queryFacetLayer,
+      queryAssembleSource,
+      queryAssembleType,
+      querySize,
+    } = this.props.dashboard;
+
+    switch (filterType) {
+      case '按学科':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName: selectedItem,
+            queryDomainName,
+            queryTopicName,
+            queryFacetName,
+            queryFacetLayer,
+            queryAssembleSource,
+            queryAssembleType,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+      case '按课程':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName,
+            queryDomainName: selectedItem,
+            queryTopicName,
+            queryFacetName,
+            queryFacetLayer,
+            queryAssembleSource,
+            queryAssembleType,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+      case '按知识主题':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName,
+            queryDomainName,
+            queryTopicName: selectedItem,
+            queryFacetName,
+            queryFacetLayer,
+            queryAssembleSource,
+            queryAssembleType,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+      case '按属性':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName,
+            queryDomainName,
+            queryTopicName,
+            queryFacetName: selectedItem,
+            queryFacetLayer,
+            queryAssembleSource,
+            queryAssembleType,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+      case '按数据源':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName,
+            queryDomainName,
+            queryTopicName,
+            queryFacetName,
+            queryFacetLayer,
+            queryAssembleSource: selectedItem,
+            queryAssembleType,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+      case '按碎片类型':
+        dispatch({
+          type: 'dashboard/getQuery',
+          payload: {
+            queryString: queryString,
+            querySubjectName,
+            queryDomainName,
+            queryTopicName,
+            queryFacetName,
+            queryFacetLayer,
+            queryAssembleSource,
+            queryAssembleType: selectedItem,
+            queryPage: 0,
+            querySize:querySize,
+          },
+        });
+        break;
+
+    }
+
+  };
+
+
   render() {
     const { queryPage, queryString, queryCount, querySize, queryUseTime, queryFilterResult, queryAssembleResult } = this.props.dashboard;
     let filters = [];
@@ -103,7 +220,7 @@ class ESearch extends React.Component {
         <Layout style={{ padding: '24px 0', background: '#fff' }}>
           <Sider width={240} style={{ background: '#fff' }}>
             {queryString !== '' && filters.map(element => <SingleFilter filterTopic={element[0]}
-                                                                        content={element[1]}/>)}
+                                                                        content={element[1]} onFilterChange={this.onFilterChange.bind(this, element[0])}/>)}
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             {queryAssembleResult.map(element =>

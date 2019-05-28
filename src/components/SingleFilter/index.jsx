@@ -5,11 +5,13 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
 class SingleFilter extends React.Component {
+
+
   render() {
     const { filterTopic, content } = this.props;
     let topics = [];
     for(let i in content){
-      console.log(content);
+      // console.log(content);
       for(let key in content[i]){
         topics.push([key, content[i][key]]);
       }
@@ -20,7 +22,7 @@ class SingleFilter extends React.Component {
         <h4>
           {filterTopic}
         </h4>
-        <RadioGroup onChange={this.props.onChange} defaultValue={'全部'}>
+        <RadioGroup onChange={this.props.onFilterChange} defaultValue={'全部'}>
           <RadioButton value={'全部'}>全部</RadioButton>
           {topics.map(element =>
             <RadioButton value={element[0]}>{element[0] + ' (' +  element[1] + ')'}</RadioButton>)}

@@ -267,6 +267,48 @@ export default {
         }
       });
 
+      yield put({
+        type: 'updateQuerySubjectName',
+        payload:{
+          querySubjectName: action.payload.querySubjectName,
+        }
+      });
+
+      yield put({
+        type: 'updateQueryDomainName',
+        payload:{
+          queryDomainName: action.payload.queryDomainName,
+        }
+      });
+
+      yield put({
+        type: 'updateQueryTopicName',
+        payload:{
+          queryTopicName: action.payload.queryTopicName,
+        }
+      });
+
+      yield put({
+        type: 'updateQueryFacetName',
+        payload:{
+          queryFacetName: action.payload.queryFacetName,
+        }
+      });
+
+      yield put({
+        type: 'updateQueryAssembleSource',
+        payload:{
+          queryAssembleSource: action.payload.queryAssembleSource,
+        }
+      });
+
+      yield put({
+        type: 'updateQueryAssembleType',
+        payload:{
+          queryAssembleType: action.payload.queryAssembleType,
+        }
+      });
+
 
       const result = yield call(axios, {
         url: 'http://yotta.xjtushilei.com:8041/es/search',
