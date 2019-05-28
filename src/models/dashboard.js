@@ -259,12 +259,14 @@ export default {
     },
     *getQuery(action, { put, call }){
 
+
       yield put({
         type: 'updateQueryString',
         payload: {
           queryString: action.payload.queryString,
         }
       });
+
 
       const result = yield call(axios, {
         url: 'http://yotta.xjtushilei.com:8041/es/search',
@@ -305,7 +307,14 @@ export default {
         payload: {
           queryUseTime: result.data.usetime,
         }
-      })
+      });
+
+      yield put({
+        type: 'updateQueryPage',
+        payload:{
+          queryPage: action.payload.queryPage
+        }
+      });
     }
   },
   reducers: {

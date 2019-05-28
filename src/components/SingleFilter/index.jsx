@@ -23,7 +23,7 @@ class SingleFilter extends React.Component {
         <RadioGroup onChange={this.props.onChange} defaultValue={'全部'}>
           <RadioButton value={'全部'}>全部</RadioButton>
           {topics.map(element =>
-            <RadioButton value={element[0]}>{element[0] + element[1]}</RadioButton>)}
+            <RadioButton value={element[0]}>{element[0] + ' (' +  element[1] + ')'}</RadioButton>)}
         </RadioGroup>
       </div>
     );

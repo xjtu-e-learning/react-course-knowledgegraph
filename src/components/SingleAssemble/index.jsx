@@ -22,7 +22,7 @@ class SingleAssemble extends React.Component {
           this.state.replicate ?
             <div onClick={this.onClick}>
               <HTMLEllipsis
-                unsafeHTML={hitAssemble.assemble_content}
+                unsafeHTML={hitAssemble.assemble_text}
                 maxLine="5"
                 ellipsisHTML="<a>...查看更多</a>"
                 basedOn="letters"
