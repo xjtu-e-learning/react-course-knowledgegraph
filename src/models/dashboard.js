@@ -28,6 +28,7 @@ export default {
     ],
     options: [],
     kfdata: '',
+    subjectkfdata: '',
     defaultSelect: [],
     currentSubjectAndDomain: [],
     assembleCountGroupByTopicId: [],
@@ -148,6 +149,30 @@ export default {
           kfdata: result.data.data
         }
       })
+    },
+    *getSubjectGraph(action, { put, call} ){
+      try {
+        const result = yield call(axios, {
+          url: 'http://yotta.xjtushilei.com:8083/subject/getSubjectGraphByName?subjectName=' + action.payload.subjectName,
+          method: 'get'
+        });
+        yield put({
+          type: 'updateSubjectGexf',
+          payload: {
+            subjectkfdata: result.data.data
+          }
+        })
+      }catch (e) {
+        yield put({
+          type: 'updateSubjectGexf',
+          payload: {
+            subjectkfdata: ''
+          }
+        })
+      }
+
+
+
     },
     *getAssembleCountByTopicId(action, { put, call }){
       const result = yield call(axios, {
@@ -395,6 +420,11 @@ export default {
     updateGexf(state, action){
       return {
         ...state, kfdata: action.payload.kfdata
+      }
+    },
+    updateSubjectGexf(state, action){
+      return {
+        ...state, subjectkfdata: action.payload.subjectkfdata
       }
     },
     updateDefaultSelect(state, action){

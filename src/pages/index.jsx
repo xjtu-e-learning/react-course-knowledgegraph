@@ -19,9 +19,11 @@ class Dashboard extends React.Component {
     const { dispatch } = this.props;
     const { options } = this.props.dashboard;
     let domains = [];
+    let subjectName = '';
     for(let subject of options){
       if(subject.value === value[0]){
         domains = subject.children;
+        subjectName = subject.label;
       }
     }
     dispatch({
@@ -71,13 +73,19 @@ class Dashboard extends React.Component {
             domains
           }
         });
+        dispatch({
+          type: 'dashboard/getSubjectGraph',
+          payload: {
+            subjectName
+          }
+        });
         break;
     }
   }
 
   render(){
     const {dashboard} = this.props;
-    const {figurecard, options, assembleCountGroupByDomainId, firstLayerFacetCountGroupByTopicId, assembleCountGroupByTopicId, topicCountGroupByDomainId, kfdata, defaultSelect, currentSubjectAndDomain} = dashboard;
+    const {subjectkfdata, figurecard, options, assembleCountGroupByDomainId, firstLayerFacetCountGroupByTopicId, assembleCountGroupByTopicId, topicCountGroupByDomainId, kfdata, defaultSelect, currentSubjectAndDomain} = dashboard;
     const figurecardProps = {figurecard};
     const optionsProps = {options};
     const kfdataProps = {kfdata};
@@ -101,7 +109,7 @@ class Dashboard extends React.Component {
 
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-            <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain}/>
+            <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain} subjectkfdata={subjectkfdata}/>
           </Col>
         </Row>
       </div>

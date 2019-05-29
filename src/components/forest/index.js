@@ -10,9 +10,11 @@ import 'echarts/lib/component/legend';
 class Forest extends React.Component {
 
   render() {
-    const { kfdata, currentSubjectAndDomain } = this.props;
-    if(kfdata === '') return null;
-    let graph = dataTool.gexf.parse(kfdata);
+    const { kfdata, currentSubjectAndDomain, subjectkfdata } = this.props;
+    let data = currentSubjectAndDomain.length === 2 ? kfdata : subjectkfdata;
+    // console.log(subjectkfdata);
+    if(data === '') return null;
+    let graph = dataTool.gexf.parse(data);
     let categories = [];
     let communityCount = 0;
     graph.nodes.forEach(function (node) {
@@ -54,8 +56,8 @@ class Forest extends React.Component {
     });
     let option = {
       title: {
-        text: currentSubjectAndDomain[1],
-        subtext: currentSubjectAndDomain[0],
+        text: currentSubjectAndDomain.length === 2 ? currentSubjectAndDomain[1] : currentSubjectAndDomain[0],
+        subtext: currentSubjectAndDomain.length === 2 ? currentSubjectAndDomain[0] : '',
         top: '90%',
         left: 'right'
       },
