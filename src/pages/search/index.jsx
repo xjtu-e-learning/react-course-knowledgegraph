@@ -165,7 +165,7 @@ class ESearch extends React.Component {
           },
         });
         break;
-      case '按数据源':
+      case '按知识源':
         dispatch({
           type: 'dashboard/getQuery',
           payload: {
