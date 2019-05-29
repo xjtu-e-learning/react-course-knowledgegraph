@@ -22,24 +22,42 @@ class SingleAssemble extends React.Component {
 
 
   render(){
-    console.log(this.state.replicate);
-    const { hitAssemble } = this.props;
+    const { hitAssemble, searchpage } = this.props;
     return (
-      <Card title={hitAssemble.subject_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.domain_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.facet_name.replace(/<[^>]+>/g,"")}>
-        {
-          this.state.replicate ?
-            <div onClick={this.onClick}>
-              <HTMLEllipsis
-                unsafeHTML={hitAssemble.assemble_text}
-                maxLine="5"
-                ellipsisHTML="<a>...查看更多</a>"
-                basedOn="letters"
-              />
-            </div> :
-            <div dangerouslySetInnerHTML={{__html: hitAssemble.assemble_content}}/>
-        }
+      <div>
+      { searchpage ?
+        <Card title={hitAssemble.subject_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.domain_name.replace(/<[^>]+>/g,"") + ' - ' + hitAssemble.facet_name.replace(/<[^>]+>/g,"")}>
+          {
+            this.state.replicate ?
+              <div onClick={this.onClick}>
+                <HTMLEllipsis
+                  unsafeHTML={hitAssemble.assemble_text}
+                  maxLine="5"
+                  ellipsisHTML="<a>...查看更多</a>"
+                  basedOn="letters"
+                />
+              </div> :
+              <div dangerouslySetInnerHTML={{__html: hitAssemble.assemble_content}}/>
+          }
 
-      </Card>
+        </Card>:
+        <Card>
+          {
+            this.state.replicate ?
+              <div onClick={this.onClick}>
+                <HTMLEllipsis
+                  unsafeHTML={hitAssemble.assembleText}
+                  maxLine="5"
+                  ellipsisHTML="<a>...查看更多</a>"
+                  basedOn="letters"
+                />
+              </div> :
+              <div dangerouslySetInnerHTML={{__html: hitAssemble.assembleContent}}/>
+          }
+
+        </Card>
+      }
+      </div>
     );
   }
 }

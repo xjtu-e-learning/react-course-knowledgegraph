@@ -224,7 +224,7 @@ class Assemblechart extends React.Component {
       >
         {this.state.currentAssembleList.map(element =>{
           element.assemble_content = element.assembleContent;
-          return <SingleAssemble hitAssemble={element}/>;
+          return <SingleAssemble hitAssemble={element} searchpage={false}/>;
         }
         )}
       </Modal>

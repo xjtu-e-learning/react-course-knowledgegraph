@@ -12,7 +12,6 @@ class Forest extends React.Component {
   render() {
     const { kfdata, currentSubjectAndDomain, subjectkfdata } = this.props;
     let data = currentSubjectAndDomain.length === 2 ? kfdata : subjectkfdata;
-    // console.log(subjectkfdata);
     if(data === '') return null;
     let graph = dataTool.gexf.parse(data);
     let categories = [];
@@ -36,7 +35,6 @@ class Forest extends React.Component {
       };
 
     });
-    console.log(graph)
     let communitySize = [];
     for (var i = 0; i <= communityCount; i++) {
       categories[i] = {name: '社团' + (i+1)};

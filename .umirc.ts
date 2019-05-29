@@ -7,7 +7,7 @@ const config: IConfig =  {
   publicPath: "./",
   exportStatic: {
     // htmlSuffix: true,
-    // dynamicRoot: true,
+    dynamicRoot: true,
   },
   // history: 'hash',
   plugins: [

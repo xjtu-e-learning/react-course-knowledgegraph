@@ -224,7 +224,7 @@ class ESearch extends React.Component {
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 280 }}>
             {queryAssembleResult.map(element =>
-                <SingleAssemble hitAssemble={element}/>,
+                <SingleAssemble hitAssemble={element} searchpage={true}/>,
               // console.log(element)
             )}
             {queryCount !== 0 &&
