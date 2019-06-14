@@ -138,6 +138,89 @@ export default {
         }
       });
     },
+    *getRealSubject(action, {put, call}){
+      //初始化首页 获得学科数据
+      const [result, result1, result2] = yield [
+        call(axios, {
+          method: 'get',
+          url: 'http://yotta.xjtushilei.com:8083/domain/getDomainsGroupBySubject'
+        }),
+        call(axios, {
+          method: 'get',
+          url: 'http://yotta.xjtushilei.com:8083/statistics/countTopic'
+        }),
+        call(axios, {
+          method: 'get',
+          url: 'http://yotta.xjtushilei.com:8083/statistics/countAssemble'
+        })];
+      const tmp = result.data.data;
+      const subjectCount = tmp.length;
+      let domainCount = 0;
+      let options = [];
+      for(let subject of tmp){
+        let temp = {};
+        temp.value = subject.subjectId;
+        temp.label = subject.subjectName;
+        temp.children = [];
+        for(let domain of subject.domains){
+          let t = {};
+          t.value = domain.domainId;
+          t.label = domain.domainName;
+          temp.children.push(t);
+        }
+        options.push(temp);
+        domainCount += subject.domains.length;
+      }
+      yield put({
+        type: 'add',
+        payload: {
+          subjectCount,
+          domainCount,
+          topicCount: result1.data.data,
+          assembleCount: result2.data.data
+        }
+      });
+
+      yield put({
+        type: 'updateSelect',
+        payload: {
+          options
+        }
+      });
+
+      yield put({
+        type: 'updateDefaultSelect',
+        payload: {
+          defaultSelect: [options[0].value, ]
+        }
+      });
+
+      yield put({
+        type: 'updateCurrentSubjectAndDomain',
+        payload: {
+          currentSubjectAndDomain: [options[0].value, ]
+        }
+      });
+
+      yield put({
+        type: 'getTopicCountGroupByDomainId',
+        payload: {
+          domains: options[0].children
+        }
+      });
+      yield put({
+        type: 'getAssembleCountByDomainId',
+        payload: {
+          domains: options[0].children
+        }
+      });
+      yield put({
+        type: 'getSubjectGraph',
+        payload: {
+          subjectName: options[0].label
+        }
+      });
+    },
     *getGexf(action, {put, call }){
       const result = yield call(axios, {
         url: 'http://yotta.xjtushilei.com:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,

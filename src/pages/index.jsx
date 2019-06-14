@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'dashboard/getSubject'
+      type: 'dashboard/getRealSubject'
     });
   }
 
