@@ -15,6 +15,10 @@ class Dashboard extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.child.updateState();
+  }
+
   onChange = (value) => {
     const { dispatch } = this.props;
     const { options } = this.props.dashboard;
@@ -81,7 +85,55 @@ class Dashboard extends React.Component {
         });
         break;
     }
-  }
+  };
+
+  // 点击右侧图，
+  updateCourseName = (courseName) => {
+    //是否需要更新，如果当前选了学科和课程，则不更新
+    const {dispatch} = this.props;
+    const {options, currentSubjectAndDomain } = this.props.dashboard;
+    if (currentSubjectAndDomain.length === 2)
+      return;
+    // 找当前这学科的id
+    let subjectId = 0;
+    let courses = [];
+    for (let subject of options){
+      if (subject.label === currentSubjectAndDomain[0]){
+        subjectId = subject.value;
+        courses = subject.children;
+      }
+    }
+    let courseId = 0;
+    for (let c of courses){
+      if (c.label === courseName)
+        courseId = c.value;
+    }
+    dispatch({
+      type: 'dashboard/updateCurrentSubjectAndDomain',
+      payload: {
+        currentSubjectAndDomain: [subjectId, courseId]
+      }
+    });
+    dispatch({
+      type: 'dashboard/getFirstLayerFacetGroupByTopicIds',
+      payload: {
+        domainId: courseId
+      }
+    });
+    dispatch({
+      type: 'dashboard/getAssembleCountByTopicId',
+      payload: {
+        domainId: courseId
+      }
+    });
+    dispatch({
+      type: 'dashboard/getGexf',
+      payload: {
+        domainName:courseName
+      }
+    });
+
+  };
 
   render(){
     const {dashboard} = this.props;
@@ -95,7 +147,7 @@ class Dashboard extends React.Component {
         <Row>
           <Col xs={8} sm={8} md={8} lg={8} xl={3}><FigureCard {...figurecardProps} /></Col>
           <Col xs={16} sm={16} md={16} lg={16} xl={9}>
-            <Multiselect {...optionsProps} {...defaultSelectProps} onChange={this.onChange}/>
+            <Multiselect ref={(child)=>{this.child=child}} {...optionsProps} {...defaultSelectProps} currentSubjectAndDomain={currentSubjectAndDomain} onChange={this.onChange}/>
             {
               (currentSubjectAndDomain.length === 2 && <div>
                 <Barchart data={firstLayerFacetCountGroupByTopicId} dataKey='属性'/>
@@ -109,7 +161,7 @@ class Dashboard extends React.Component {
 
           </Col>
           <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-            <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain} subjectkfdata={subjectkfdata}/>
+            <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain} subjectkfdata={subjectkfdata} updateCourseName={this.updateCourseName}/>
           </Col>
         </Row>
       </div>

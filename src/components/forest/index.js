@@ -9,13 +9,23 @@ import 'echarts/lib/component/legend';
 
 class Forest extends React.Component {
 
+  onNodeClick = (data) => {
+      if (data.dataType === 'node'){
+          this.props.updateCourseName(data.data.id)
+      }
+  };
+
+
   render() {
     const { kfdata, currentSubjectAndDomain, subjectkfdata } = this.props;
+    // 绑定点击事件
+    const onEvents = {'click':this.onNodeClick.bind(this)};
     let data = currentSubjectAndDomain.length === 2 ? kfdata : subjectkfdata;
     if(data === '') return null;
     let graph = dataTool.gexf.parse(data);
     let categories = [];
     let communityCount = 0;
+
     graph.nodes.forEach(function (node) {
       communityCount = Math.max(communityCount, node.attributes.modularity_class);
       node.itemStyle = null;
@@ -60,12 +70,16 @@ class Forest extends React.Component {
         left: 'right'
       },
       tooltip: {},
-      legend: [{
+      legend: {
         // selectedMode: 'single',
+        top:'top',
         data: categories.map(function (a) {
           return a.name;
-        })
-      }],
+        }),
+        textStyle: {
+          fontSize: 14
+        }
+      },
       animationDuration: 1500,
       animationEasingUpdate: 'quinticInOut',
       dataZoom: [
@@ -82,6 +96,7 @@ class Forest extends React.Component {
           links: graph.links,
           // left: 20,
           width: '100%',
+          top:'15%',
           // height: '100%',
           edgeSymbol: ['circle', 'arrow'],
           edgeSymbolSize: [0.5, 7],
@@ -108,7 +123,7 @@ class Forest extends React.Component {
     };
 
     return (
-      <ReactEchartsCore ref={(e) => { this.echarts_react = e; }} echarts={echarts} option={option} style={{ height: '600px', width: '800px', margin: 'auto' }}/>
+      <ReactEchartsCore ref={(e) => { this.echarts_react = e; }} echarts={echarts} option={option} onEvents={onEvents} style={{ height: '600px', width: '800px', margin: 'auto' }}/>
     );
   }
 
