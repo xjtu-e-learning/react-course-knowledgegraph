@@ -115,7 +115,7 @@ class Forest extends React.Component {
             normal: {
               curveness: 0.25,
               color: 'source',
-              width: 1
+              width: 3
             }
           }
         }
