@@ -10,7 +10,7 @@ import Assemblechart from '../../components/assemblechart';
 const MenuItemGroup = Menu.ItemGroup;
 const SubMenu = Menu.SubMenu;
 const {
-   Content,  Sider,
+  Content, Sider,
 } = Layout;
 
 class Visualization extends React.Component {
@@ -19,30 +19,31 @@ class Visualization extends React.Component {
     const { currentSubjectAndDomain } = this.props.dashboard;
     const { topicList } = this.props.construct;
     const { dispatch } = this.props;
-    if(currentSubjectAndDomain.length === 2){
+    if (currentSubjectAndDomain.length === 2) {
       dispatch({
         type: 'construct/getFacets',
         payload: {
           domainName: currentSubjectAndDomain[1],
-          topicList
-        }
-      })
+          topicList,
+        },
+      });
     }
-  }
+  };
 
   render() {
     const { currentSubjectAndDomain, options, kfdata } = this.props.dashboard;
-    if(currentSubjectAndDomain.length !== 2 || options.length === 0) return null;
+    if (currentSubjectAndDomain.length !== 2 || options.length === 0) return null;
     const { topicList, step, dependenceList, facetList, discoverState, assembleList } = this.props.construct;
     return (
       <div>
-        <div style={{marginBottom: 16}}>
+        <div style={{ marginBottom: 16 }}>
           <span><b>学科：</b>{currentSubjectAndDomain[0]}</span>
-          <span style={{paddingLeft: '16px', paddingRight: 16}}><b>课程：</b>{currentSubjectAndDomain[1]}</span>
-          <Button type="primary" onClick={this.startExtract}>
+          <span style={{ paddingLeft: '16px', paddingRight: 16 }}><b>课程：</b>{currentSubjectAndDomain[1]}</span>
+          <Button type="primary" onClick={this.startExtract} disabled={discoverState === 'finish'}>
             {discoverState === 'start' && '开始属性挖掘&知识单元集成'}
             {discoverState !== 'start' && (discoverState === 'processing' ? '挖掘中' : '挖掘完成')}
-            {discoverState !== 'start' && (discoverState === 'processing' ? <Icon type="loading" /> : <Icon type="check" />)}
+            {discoverState !== 'start' && (discoverState === 'processing' ? <Icon type="loading"/> :
+              <Icon type="check"/>)}
           </Button>
         </div>
 
@@ -56,21 +57,23 @@ class Visualization extends React.Component {
             >
               <MenuItemGroup key="topic" title="知识主题及其属性">
                 {topicList.map((topic) => {
-                  if(facetList[topic.topicName] !== undefined){
+                  if (facetList[topic.topicName] !== undefined) {
                     return (
                       <SubMenu key={topic.topicId} title={topic.topicName}>
-                        {facetList[topic.topicName].filter(facet => facet.facetName !== '匿名分面').map(facet => <Menu.Item key={facet.facetId}>{facet.facetName}</Menu.Item>)}
+                        {facetList[topic.topicName].filter(facet => facet.facetName !== '匿名分面').map(facet => <Menu.Item
+                          key={facet.facetId}>{facet.facetName}</Menu.Item>)}
                       </SubMenu>
                     );
                   }
-                  return <Menu.Item key={topic.topicId}>{topic.topicName}</Menu.Item>
+                  return <Menu.Item key={topic.topicId}>{topic.topicName}</Menu.Item>;
                 })}
               </MenuItemGroup>
             </Menu>
           </Sider>
           <Content style={{ padding: '0 24px', minHeight: 600 }}>
             {/*{miningState !== 'finish' ? <Nodechart topicList={topicList} /> : <Dependencechart topicList={topicList} dependenceList={dependenceList} />}*/}
-            <Assemblechart topicList={topicList} dependenceList={dependenceList} assembleList={assembleList} kfdata={kfdata}/>
+            <Assemblechart topicList={topicList} dependenceList={dependenceList} assembleList={assembleList}
+                           kfdata={kfdata}/>
           </Content>
         </Layout>
       </div>
@@ -78,4 +81,4 @@ class Visualization extends React.Component {
   }
 }
 
-export default connect(({dashboard, construct}) => ({dashboard, construct}))(Visualization);
+export default connect(({ dashboard, construct }) => ({ dashboard, construct }))(Visualization);

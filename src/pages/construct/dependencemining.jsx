@@ -48,7 +48,7 @@ class Dependencemining extends React.Component {
         <div style={{marginBottom: 16}}>
           <span><b>学科：</b>{currentSubjectAndDomain[0]}</span>
           <span style={{paddingLeft: '16px', paddingRight: 16}}><b>课程：</b>{currentSubjectAndDomain[1]}</span>
-          <Button type="primary" onClick={this.startExtract}>
+          <Button type="primary" onClick={this.startExtract} disabled={miningState === 'finish'}>
             {miningState === 'start' && '开始挖掘'}
             {miningState !== 'start' && (miningState === 'processing' ? '挖掘中' : '挖掘完成')}
             {miningState !== 'start' && (miningState === 'processing' ? <Icon type="loading" /> : <Icon type="check" />)}
