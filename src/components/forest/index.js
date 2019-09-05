@@ -43,7 +43,7 @@ class Forest extends React.Component {
           show: node.symbolSize > 0
         }
       };
-
+      node.symbolSize = node.symbolSize / 3 + 6;
     });
     let communitySize = [];
     for (var i = 0; i <= communityCount; i++) {
@@ -56,8 +56,8 @@ class Forest extends React.Component {
       for (let i = 0; i <= communityCount; i++) {
         if (community === i) {
           if (size > communitySize[i]) {
-            communitySize[i] = size;
             categories[i] = {name: node.name};
+
           }
         }
       }

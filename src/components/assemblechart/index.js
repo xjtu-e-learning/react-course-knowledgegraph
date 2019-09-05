@@ -60,6 +60,7 @@ class Assemblechart extends React.Component {
         x: node.x,
         y: node.y
       };
+      node.symbolSize = node.symbolSize / 3 + 6;
     });
     let communitySize = [];
     for (var i = 0; i <= communityCount; i++) {
