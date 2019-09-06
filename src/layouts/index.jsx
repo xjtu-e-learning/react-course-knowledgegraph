@@ -108,7 +108,7 @@ class BasicLayout extends React.Component{
           {props.children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          Copyright © 2019 大数据算法与分析技术国家工程实验室. All rights reserved.
+          Copyright © 2019 大数据算法与分析技术国家工程实验室. All rights reserved. ( 建议分辨率: 1920×1080 )
         </Footer>
       </Layout>
     );

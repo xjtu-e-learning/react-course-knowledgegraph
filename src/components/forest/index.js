@@ -123,7 +123,7 @@ class Forest extends React.Component {
     };
 
     return (
-      <ReactEchartsCore ref={(e) => { this.echarts_react = e; }} echarts={echarts} option={option} onEvents={onEvents} style={{ height: '600px', width: '800px', margin: 'auto' }}/>
+      <ReactEchartsCore ref={(e) => { this.echarts_react = e; }} echarts={echarts} option={option} onEvents={onEvents} style={{ height: '90%', width: '800px', margin: 'auto' }}/>
     );
   }
 

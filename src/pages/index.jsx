@@ -144,9 +144,9 @@ class Dashboard extends React.Component {
     const defaultSelectProps = {defaultSelect};
     return (
       <div className={styles.normal}>
-        <Row>
-          <Col xs={8} sm={8} md={8} lg={8} xl={3}><FigureCard {...figurecardProps} /></Col>
-          <Col xs={16} sm={16} md={16} lg={16} xl={9}>
+        <Row type={'flex'} justify={'space-around'} >
+          <Col span={4}><FigureCard {...figurecardProps} /></Col>
+          <Col span={7}>
             <Multiselect ref={(child)=>{this.child=child}} {...optionsProps} {...defaultSelectProps} currentSubjectAndDomain={currentSubjectAndDomain} onChange={this.onChange}/>
             {
               (currentSubjectAndDomain.length === 2 && <div>
@@ -160,7 +160,7 @@ class Dashboard extends React.Component {
             }
 
           </Col>
-          <Col xs={24} sm={24} md={24} lg={24} xl={12}>
+          <Col span={12} >
             <Forest {...kfdataProps} currentSubjectAndDomain={currentSubjectAndDomain} subjectkfdata={subjectkfdata} updateCourseName={this.updateCourseName}/>
           </Col>
         </Row>
