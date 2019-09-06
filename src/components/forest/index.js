@@ -95,7 +95,6 @@ class Forest extends React.Component {
           data: graph.nodes,
           links: graph.links,
           // left: 20,
-          width: '100%',
           top:'15%',
           // height: '100%',
           edgeSymbol: ['circle', 'arrow'],
