@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Input } from 'antd';
 import { Layout, Menu, Breadcrumb, Pagination } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import SingleFilter from '../../components/SingleFilter';
 import SingleAssemble from '../../components/SingleAssemble';
 

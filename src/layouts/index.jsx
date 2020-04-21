@@ -1,44 +1,43 @@
 import React from 'react';
 import styles from './index.css';
 import { Layout, Menu } from 'antd';
-import Link from 'umi/link';
+import { Link, connect } from 'umi';
 import SearchInput from '../components/SearchInput';
 import './index.css';
-import { connect } from 'dva';
-import router from 'umi/router';
+import { history } from 'umi';
 
 const { Header, Content, Footer } = Layout;
 
 
-class BasicLayout extends React.Component{
+class BasicLayout extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {defaultSelectedKeys: ['1']};
+    this.state = { defaultSelectedKeys: ['1'] };
   }
 
-  componentWillMount(){
-    if(this.props.location.pathname === '/'){
-      this.setState({defaultSelectedKeys: ['1']});
-    }else if(this.props.location.pathname.match(/search/)){
-      this.setState({defaultSelectedKeys: ['3']});
-    }else if(this.props.location.pathname.match(/construct/)){
-      this.setState({defaultSelectedKeys: ['2']});
+  componentWillMount() {
+    if (this.props.location.pathname === '/') {
+      this.setState({ defaultSelectedKeys: ['1'] });
+    } else if (this.props.location.pathname.match(/search/)) {
+      this.setState({ defaultSelectedKeys: ['3'] });
+    } else if (this.props.location.pathname.match(/construct/)) {
+      this.setState({ defaultSelectedKeys: ['2'] });
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    if(nextProps.location.pathname === '/'){
-      this.setState({defaultSelectedKeys: ['1']});
-    }else if(nextProps.location.pathname.match(/search/)){
-      this.setState({defaultSelectedKeys: ['3']});
-    }else if(nextProps.location.pathname.match(/construct/)){
-      this.setState({defaultSelectedKeys: ['2']});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname === '/') {
+      this.setState({ defaultSelectedKeys: ['1'] });
+    } else if (nextProps.location.pathname.match(/search/)) {
+      this.setState({ defaultSelectedKeys: ['3'] });
+    } else if (nextProps.location.pathname.match(/construct/)) {
+      this.setState({ defaultSelectedKeys: ['2'] });
     }
   }
 
   searchFunction = (value) => {
-    if(value === '') return;
+    if (value === '') return;
     const { dispatch } = this.props;
     const {
       querySubjectName,
@@ -49,7 +48,7 @@ class BasicLayout extends React.Component{
       queryAssembleSource,
       queryAssembleType,
       queryPage,
-      querySize
+      querySize,
     } = this.props.dashboard;
     dispatch({
       type: 'dashboard/getQuery',
@@ -63,18 +62,18 @@ class BasicLayout extends React.Component{
         queryAssembleSource,
         queryAssembleType,
         queryPage,
-        querySize
-      }
+        querySize,
+      },
     });
-    router.push('/search');
+    history.push('/search');
   };
 
   render() {
     const props = this.props;
     return (
       <Layout className={styles.layout}>
-        <Header style={{position: 'fixed', zIndex: 1100, width: '100%'}}>
-          <div className={styles.logo} />
+        <Header style={{ position: 'fixed', zIndex: 1100, width: '100%' }}>
+          <div className={styles.logo}/>
           <Menu
             theme="dark"
             mode="horizontal"
@@ -97,12 +96,14 @@ class BasicLayout extends React.Component{
               </Link>
             </Menu.Item>
             {
+
               props.location.pathname !== '/search' &&
               <div className={styles.search}>
-                <SearchInput searchFunction={this.searchFunction} />
+                <SearchInput searchFunction={this.searchFunction}/>
               </div>
             }
           </Menu>
+
         </Header>
         <Content style={{ padding: '0 50px', marginTop: 64 }}>
           {props.children}
@@ -117,4 +118,4 @@ class BasicLayout extends React.Component{
 
 };
 
-export default connect(({dashboard}) => ({dashboard}))(BasicLayout);
+export default connect(({ dashboard }) => ({ dashboard }))(BasicLayout);

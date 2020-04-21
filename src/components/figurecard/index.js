@@ -5,7 +5,7 @@ import styles from './figurecard.less'
 
 class FigureCard extends React.Component {
   render () {
-    const { figurecard } = this.props
+    const { figurecard } = this.props;
 
     return (
       <div>

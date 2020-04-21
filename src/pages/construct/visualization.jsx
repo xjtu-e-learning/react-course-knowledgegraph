@@ -3,7 +3,7 @@ import {
   Layout, Menu, Icon, Button,
 } from 'antd/lib/index';
 
-import { connect } from 'dva/index';
+import { connect } from 'umi';
 import ConstructStep from '../../components/ConstructStep';
 import Assemblechart from '../../components/assemblechart';
 

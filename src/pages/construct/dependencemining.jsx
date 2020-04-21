@@ -3,11 +3,10 @@ import {
   Layout, Menu, Icon, Button,
 } from 'antd/lib/index';
 
-import { connect } from 'dva/index';
+import { connect, Link } from 'umi';
 import Nodechart from '../../components/nodechart';
 import ConstructStep from '../../components/ConstructStep';
 import Dependencechart from '../../components/dependencechart';
-import Link from 'umi/link';
 
 const MenuItemGroup = Menu.ItemGroup;
 const {
