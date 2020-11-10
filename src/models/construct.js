@@ -28,7 +28,7 @@ export default {
         }
       })
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/topic/getTopicsByDomainName?domainName=' + action.payload.domainName,
+        url: 'http://47.95.145.72:8083/topic/getTopicsByDomainName?domainName=' + action.payload.domainName,
         method: 'get'
       });
       let tmplist = result.data.data;
@@ -56,7 +56,7 @@ export default {
         }
       })
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/dependency/getDependenciesByDomainName?domainName=' + action.payload.domainName,
+        url: 'http://47.95.145.72:8083/dependency/getDependenciesByDomainName?domainName=' + action.payload.domainName,
         method: 'get'
       });
       let tmplist = result.data.data;
@@ -90,7 +90,7 @@ export default {
 
       for(let topic of action.payload.topicList) {
         const result = yield call(axios, {
-          url: 'http://yotta.xjtushilei.com:8083/facet/getFirstLayerFacetsByDomainNameAndTopicName?domainName=' + action.payload.domainName + '&topicName=' + encodeURIComponent(topic.topicName),
+          url: 'http://47.95.145.72:8083/facet/getFirstLayerFacetsByDomainNameAndTopicName?domainName=' + action.payload.domainName + '&topicName=' + encodeURIComponent(topic.topicName),
           method: 'get',
         });
 
@@ -111,7 +111,7 @@ export default {
 
         for (let facet of facetList) {
           const result = yield call(axios, {
-            url: `http://yotta.xjtushilei.com:8083/assemble/getAssemblesInFirstLayerFacet?domainName=${action.payload.domainName}&topicName=${encodeURIComponent(topic.topicName)}&firstLayerFacetName=${encodeURIComponent(facet.facetName)}`,
+            url: `http://47.95.145.72:8083/assemble/getAssemblesInFirstLayerFacet?domainName=${action.payload.domainName}&topicName=${encodeURIComponent(topic.topicName)}&firstLayerFacetName=${encodeURIComponent(facet.facetName)}`,
             method: 'get'
           });
 

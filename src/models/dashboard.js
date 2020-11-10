@@ -59,15 +59,15 @@ export default {
       const [result, result1, result2] = yield [
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/domain/getDomainsGroupBySubject'
+          url: 'http://47.95.145.72:8083/domain/getDomainsGroupBySubject'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/statistics/countTopic'
+          url: 'http://47.95.145.72:8083/statistics/countTopic'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/statistics/countAssemble'
+          url: 'http://47.95.145.72:8083/statistics/countAssemble'
         })];
       const tmp = result.data.data;
       const subjectCount = tmp.length;
@@ -143,15 +143,15 @@ export default {
       const [result, result1, result2] = yield [
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/domain/getDomainsGroupBySubject'
+          url: 'http://47.95.145.72:8083/domain/getDomainsGroupBySubject'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/statistics/countTopic'
+          url: 'http://47.95.145.72:8083/statistics/countTopic'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://yotta.xjtushilei.com:8083/statistics/countAssemble'
+          url: 'http://47.95.145.72:8083/statistics/countAssemble'
         })];
       const tmp = result.data.data;
       const subjectCount = tmp.length;
@@ -223,7 +223,7 @@ export default {
     },
     *getGexf(action, {put, call }){
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
+        url: 'http://47.95.145.72:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
         method: 'post'
       });
       yield put({
@@ -236,7 +236,7 @@ export default {
     *getSubjectGraph(action, { put, call} ){
       try {
         const result = yield call(axios, {
-          url: 'http://yotta.xjtushilei.com:8083/subject/getSubjectGraphByName?subjectName=' + action.payload.subjectName,
+          url: 'http://47.95.145.72:8083/subject/getSubjectGraphByName?subjectName=' + action.payload.subjectName,
           method: 'get'
         });
         yield put({
@@ -259,7 +259,7 @@ export default {
     },
     *getAssembleCountByTopicId(action, { put, call }){
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
+        url: 'http://47.95.145.72:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
         method: 'get'
       });
       let topicList = result.data.data;
@@ -268,7 +268,7 @@ export default {
         query += 'topicIds=' + topic.topicId + '&';
       }
       const result1 = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/statistics/countAssembleGroupByTopicIds?' + query,
+        url: 'http://47.95.145.72:8083/statistics/countAssembleGroupByTopicIds?' + query,
         method: 'get'
       });
       let assembleCount = result1.data.data;
@@ -288,7 +288,7 @@ export default {
     },
     *getFirstLayerFacetGroupByTopicIds(action, { put, call }){
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
+        url: 'http://47.95.145.72:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
         method: 'get'
       });
       let topicList = result.data.data;
@@ -297,7 +297,7 @@ export default {
         query += 'topicIds=' + topic.topicId + '&';
       }
       const result1 = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/statistics/countFirstLayerFacetGroupByTopicIds?' + query,
+        url: 'http://47.95.145.72:8083/statistics/countFirstLayerFacetGroupByTopicIds?' + query,
         method: 'get'
       });
       let firstLayerCount = result1.data.data;
@@ -322,7 +322,7 @@ export default {
         query += 'domainIds=' + domain.value + '&';
       }
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/statistics/countTopicGroupByDomainIds?' + query,
+        url: 'http://47.95.145.72:8083/statistics/countTopicGroupByDomainIds?' + query,
         method: 'get'
       });
       let topicCount = result.data.data;
@@ -347,7 +347,7 @@ export default {
         query += 'domainIds=' + domain.value + '&';
       }
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8083/statistics/countAssembleGroupByDomainIds?' + query,
+        url: 'http://47.95.145.72:8083/statistics/countAssembleGroupByDomainIds?' + query,
         method: 'get'
       });
       let assembleCount = result.data.data;
@@ -383,7 +383,7 @@ export default {
       });
 
       const result = yield call(axios, {
-        url: 'http://yotta.xjtushilei.com:8041/es/search',
+        url: 'http://47.95.145.72:8041/es/search',
         method: 'get',
         params: {
           q: action.payload.queryString,

@@ -10,7 +10,7 @@ const config =  {
   // history: 'hash',
   proxy: {
     "/api": {
-      "target": "http://yotta.xjtushilei.com:8041/es/search",
+      "target": "http://47.95.145.72:8041/es/search",
       "changeOrigin": true,
       "pathRewrite": { "^/api" : "" }
     }
