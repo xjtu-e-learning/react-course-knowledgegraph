@@ -38,6 +38,7 @@ class Assemblechart extends React.Component {
     let categories = [];
     let communityCount = 0;
     let nodePosition = {};
+    //console.log(graph.nodes);
     graph.nodes.forEach(function (node) {
       communityCount = Math.max(communityCount, node.attributes.modularity_class);
       node.itemStyle = null;
@@ -105,6 +106,7 @@ class Assemblechart extends React.Component {
     // let assembles = assembleList.slice(0);
     let assembleNodes = [];
     let assembleEdges = [];
+
     for(let topic of assembleList){
       let topicName = topic.topicName;
       // 有些主题数据库中有，但是知识图谱上没有
@@ -120,7 +122,7 @@ class Assemblechart extends React.Component {
             symbol: 'diamod',
             symbolSize: 10,
             x: nodePosition[topicName].x + 200 * Math.sin(2 * Math.PI * i / length),
-            y: nodePosition[topicName].y - 200 * Math.cos(2 * Math.PI * i / length),
+            y: nodePosition[topicName].y + 200 * Math.cos(2 * Math.PI * i / length),
             // itemStyle: {
             //   color: 'green'
             // },
@@ -135,7 +137,7 @@ class Assemblechart extends React.Component {
 
           let edge = {
             id: topicName + '&' + facetName,
-            source: topicName,
+            source: graph.nodes.find(n => n.name === topicName)?.id || topicName,
             target: topicName + '&' + facetName,
           };
           assembleEdges.push(edge);
@@ -167,6 +169,7 @@ class Assemblechart extends React.Component {
     // nodes = nodes.concat(assembles);
     graph.nodes = graph.nodes.concat(assembleNodes);
     graph.links = graph.links.concat(assembleEdges);
+    //console.log('ll', graph.links)
     let option = {
       // title: {
       //   text: 'Les Miserables',

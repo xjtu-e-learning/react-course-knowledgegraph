@@ -18,7 +18,8 @@ class Dependencemining extends React.Component {
   startExtract = () => {
     const { currentSubjectAndDomain } = this.props.dashboard;
     const { dispatch } = this.props;
-    if(currentSubjectAndDomain.length === 2){
+    const {miningState} = this.props.construct;
+    if(currentSubjectAndDomain.length === 2 && miningState === 'start'){
       dispatch({
         type: 'construct/getDependences',
         payload: {

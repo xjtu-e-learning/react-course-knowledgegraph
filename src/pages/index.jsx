@@ -47,6 +47,9 @@ class Dashboard extends React.Component {
           }
         }
         dispatch({
+          type: 'construct/reset'
+        });
+        dispatch({
           type: 'dashboard/getFirstLayerFacetGroupByTopicIds',
           payload: {
             domainId: value[1],
@@ -110,6 +113,9 @@ class Dashboard extends React.Component {
         courseId = c.value;
     }
     dispatch({
+      type: 'construct/reset'
+    });
+    dispatch({
       type: 'dashboard/updateCurrentSubjectAndDomain',
       payload: {
         currentSubjectAndDomain: [subjectId, courseId],
@@ -133,6 +139,7 @@ class Dashboard extends React.Component {
         domainName: courseName,
       },
     });
+   
 
   };
 

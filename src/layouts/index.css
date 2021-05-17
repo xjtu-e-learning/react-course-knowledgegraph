@@ -15,9 +15,12 @@
 }
 
 .logo {
-  width: 120px;
+  width: 180px;
   height: 31px;
-  background: rgba(255,255,255,.2);
+  line-height: 31px;
+  font-size: 1.2rem;
+  text-align: center;
+  color:white;
   margin: 16px 24px 16px 0;
   float: left;
 }

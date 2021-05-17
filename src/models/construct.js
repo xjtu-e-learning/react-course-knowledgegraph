@@ -16,11 +16,11 @@ export default {
     visible: false,
   },
   subscriptions: {
-    setup ({ dispatch, history }) {
+    setup({ dispatch, history }) {
     }
   },
   effects: {
-    *getTopics(action, { put, call }){
+    *getTopics(action, { put, call }) {
       yield put({
         type: 'updateExtractState',
         payload: {
@@ -32,7 +32,7 @@ export default {
         method: 'get'
       });
       let tmplist = result.data.data;
-      for(let topic of tmplist){
+      for (let topic of tmplist) {
         yield call(delay, 100);
         yield put({
           type: 'updateTopicList',
@@ -48,7 +48,7 @@ export default {
         }
       })
     },
-    *getDependences(action, { put, call }){
+    *getDependences(action, { put, call }) {
       yield put({
         type: 'updateMiningState',
         payload: {
@@ -60,7 +60,7 @@ export default {
         method: 'get'
       });
       let tmplist = result.data.data;
-      for(let dependence of tmplist){
+      for (let dependence of tmplist) {
         let tmp = {};
         tmp.id = dependence.startTopicId + '&' + dependence.endTopicId;
         tmp.source = dependence.startTopicName;
@@ -80,7 +80,7 @@ export default {
         }
       })
     },
-    *getFacets(action, { put, call }){
+    *getFacets(action, { put, call }) {
       yield put({
         type: 'updateDiscoverState',
         payload: {
@@ -88,7 +88,7 @@ export default {
         }
       });
 
-      for(let topic of action.payload.topicList) {
+      for (let topic of action.payload.topicList) {
         const result = yield call(axios, {
           url: 'http://47.95.145.72:8083/facet/getFirstLayerFacetsByDomainNameAndTopicName?domainName=' + action.payload.domainName + '&topicName=' + encodeURIComponent(topic.topicName),
           method: 'get',
@@ -141,37 +141,52 @@ export default {
     },
   },
   reducers: {
-    updateTopicList(state, action){
+    reset(state, action) {
+      return {
+        ...state,
+        topicList: [],
+        extractState: 'start',
+        dependenceList: [],
+        miningState: 'start',
+        facetList: [],
+        discoverState: 'start',
+        assembleList: [],
+        crawlState: 'start',
+        step: 0,
+        visible: false,
+      }
+    },
+    updateTopicList(state, action) {
       return {
         ...state,
         topicList: [action.payload.topic].concat(state.topicList),
       };
     },
-    updateExtractState(state, action){
+    updateExtractState(state, action) {
       return {
         ...state,
         extractState: action.payload.extractState,
       };
     },
-    updateDependenceList(state, action){
+    updateDependenceList(state, action) {
       return {
         ...state,
         dependenceList: [action.payload.dependence].concat(state.dependenceList)
       };
     },
-    updateMiningState(state, action){
+    updateMiningState(state, action) {
       return {
         ...state,
         miningState: action.payload.miningState
       };
     },
-    updateDiscoverState(state, action){
+    updateDiscoverState(state, action) {
       return {
         ...state,
         discoverState: action.payload.discoverState,
       }
     },
-    updateFacetList(state, action){
+    updateFacetList(state, action) {
       let tmp = state.facetList;
       tmp[action.payload.topicName] = action.payload.facetList;
       return {
@@ -179,25 +194,25 @@ export default {
         facetList: tmp
       }
     },
-    updateCrawlState(state, action){
+    updateCrawlState(state, action) {
       return {
         ...state,
         crawlState: action.payload.crawlState,
       }
     },
-    updateAssembleList(state, action){
+    updateAssembleList(state, action) {
       return {
         ...state,
         assembleList: [action.payload.assemble].concat(state.assembleList),
       }
     },
-    updateStep(state, action){
+    updateStep(state, action) {
       return {
         ...state,
         step: action.payload.step
       }
     },
-    updateVisible(state, action){
+    updateVisible(state, action) {
       return {
         ...state,
         visible: action.payload.visible

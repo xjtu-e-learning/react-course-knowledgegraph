@@ -17,8 +17,11 @@ class Visualization extends React.Component {
 
   startExtract = () => {
     const { currentSubjectAndDomain } = this.props.dashboard;
-    const { topicList } = this.props.construct;
+    const { topicList, discoverState } = this.props.construct;
     const { dispatch } = this.props;
+    if(discoverState !== 'start'){
+      return;
+    }
     if (currentSubjectAndDomain.length === 2) {
       dispatch({
         type: 'construct/getFacets',

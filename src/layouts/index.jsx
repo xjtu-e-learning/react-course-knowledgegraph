@@ -73,7 +73,9 @@ class BasicLayout extends React.Component {
     return (
       <Layout className={styles.layout}>
         <Header style={{ position: 'fixed', zIndex: 1100, width: '100%' }}>
-          <div className={styles.logo}/>
+          <div className={styles.logo}>
+            数字资源集成工具
+          </div>
           <Menu
             theme="dark"
             mode="horizontal"
@@ -90,7 +92,7 @@ class BasicLayout extends React.Component {
                 构建
               </Link>
             </Menu.Item>
-            <Menu.Item key="3">
+            {/* <Menu.Item key="3">
               <Link to="/search">
                 搜索
               </Link>
@@ -99,9 +101,9 @@ class BasicLayout extends React.Component {
 
               props.location.pathname !== '/search' &&
               <div className={styles.search}>
-                <SearchInput searchFunction={this.searchFunction}/>
+                <SearchInput searchFunction={this.searchFunction} />
               </div>
-            }
+            } */}
           </Menu>
 
         </Header>
@@ -109,7 +111,7 @@ class BasicLayout extends React.Component {
           {props.children}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          Copyright © 2019 大数据算法与分析技术国家工程实验室. All rights reserved. ( 建议分辨率: 1920×1080 )
+          Copyright © 2021 大数据算法与分析技术国家工程实验室. All rights reserved. ( 建议分辨率: 1920×1080 )
         </Footer>
       </Layout>
     );

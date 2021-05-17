@@ -22,6 +22,7 @@ class Dependencechart extends React.Component {
         }
       };
     });
+    graph.links = dependenceList;
     let option = {
       // title: {
       //   text: 'Les Miserables',
@@ -37,7 +38,12 @@ class Dependencechart extends React.Component {
           type: 'graph',
           layout: 'none',
           data: graph.nodes,
-          links: dependenceList,
+          links: dependenceList.map(dep => { // 优先使用id，其次是name
+            return {
+              source: graph.nodes.find(n => n.name === dep.source)?.id || dep.source,
+              target: graph.nodes.find(n => n.name === dep.target)?.id || dep.source
+            }
+          }),
           edgeSymbol: ['circle', 'arrow'],
           edgeSymbolSize: [0.5, 7],
           focusNodeAdjacency: true,
