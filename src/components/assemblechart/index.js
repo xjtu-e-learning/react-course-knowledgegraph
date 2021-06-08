@@ -31,9 +31,9 @@ class Assemblechart extends React.Component {
   };
 
   render() {
-    const { topicList, dependenceList, assembleList, kfdata } = this.props;
-    if(topicList.length === 0 || dependenceList.length === 0) return null;
-    if(kfdata === '') return null;
+    const { topicList, dependenceList, assembleList, kfdata, domainName } = this.props;
+    if (topicList.length === 0 || dependenceList.length === 0) return null;
+    if (kfdata === '') return null;
     let graph = dataTool.gexf.parse(kfdata);
     let categories = [];
     let communityCount = 0;
@@ -65,7 +65,7 @@ class Assemblechart extends React.Component {
     });
     let communitySize = [];
     for (var i = 0; i <= communityCount; i++) {
-      categories[i] = {name: '社团' + (i+1)};
+      categories[i] = { name: '社团' + (i + 1) };
       communitySize[i] = 0;
     }
     graph.nodes.forEach(function (node) {
@@ -75,12 +75,12 @@ class Assemblechart extends React.Component {
         if (community === i) {
           if (size > communitySize[i]) {
             communitySize[i] = size;
-            categories[i] = {name: node.name};
+            categories[i] = { name: node.name };
           }
         }
       }
     });
-    categories.push({name: '知识单元'});
+    categories.push({ name: '知识单元' });
     // console.log(assembleList)
     // console.log(categories)
     // let nodes = topicList.slice(0);
@@ -106,23 +106,32 @@ class Assemblechart extends React.Component {
     // let assembles = assembleList.slice(0);
     let assembleNodes = [];
     let assembleEdges = [];
+    // console.log(graph.nodes);
 
-    for(let topic of assembleList){
+    for (let topic of assembleList) {
       let topicName = topic.topicName;
       // 有些主题数据库中有，但是知识图谱上没有
-      if(nodePosition[topicName] === undefined) continue;
+      if (nodePosition[topicName] === undefined) continue;
 
       let length = Object.keys(topic.data).length - 1;
       Object.keys(topic.data).forEach((facetName, i) => {
-        if(facetName !== '匿名分面'){
+
+        const topicNode = graph.nodes.find(v => v.name === topicName || v.id === topicName);
+        // console.log(topicNode);
+        let nodeRadius = topicNode ? topicNode.symbolSize : 50;
+        if(domainName.indexOf('数据结构') !== -1) {
+          nodeRadius = nodeRadius * 4;
+        }
+        
+        if (facetName !== '匿名分面') {
           let node = {
             name: facetName,
             id: topicName + '&' + facetName,
             data: topic.data[facetName],
             symbol: 'diamod',
-            symbolSize: 10,
-            x: nodePosition[topicName].x + 200 * Math.sin(2 * Math.PI * i / length),
-            y: nodePosition[topicName].y + 200 * Math.cos(2 * Math.PI * i / length),
+            symbolSize: 8,
+            x: nodePosition[topicName].x + 2.5 * nodeRadius * Math.sin(2 * Math.PI * i / length),
+            y: nodePosition[topicName].y + 2.5 * nodeRadius * Math.cos(2 * Math.PI * i / length),
             // itemStyle: {
             //   color: 'green'
             // },
@@ -131,7 +140,10 @@ class Assemblechart extends React.Component {
               normal: {
                 show: true
               }
-            }
+            },
+            labelLayout: {
+              hideOverlap: true
+            },
           };
           assembleNodes.push(node);
 
@@ -181,11 +193,11 @@ class Assemblechart extends React.Component {
       legend: [{
         // selectedMode: 'single',
         data: categories.map(function (a) {
-          return {name: a.name, icon: 'circle'};
+          return { name: a.name, icon: 'circle' };
         })
       }],
       animation: false,
-      series : [
+      series: [
         {
           name: 'Les Miserables',
           type: 'graph',
@@ -218,7 +230,7 @@ class Assemblechart extends React.Component {
     };
 
     return ([
-      <ReactEchartsCore ref={(e) => {this.echarts_react = e}} echarts={echarts} option={option} style={{ height: '600px', width: '800px', margin: 'auto' }}/>,
+      <ReactEchartsCore ref={(e) => { this.echarts_react = e }} echarts={echarts} option={option} style={{ height: '600px', width: '800px', margin: 'auto' }} />,
       <Modal
         title={this.state.topicAndFacet}
         visible={this.state.visible}
@@ -226,21 +238,21 @@ class Assemblechart extends React.Component {
         width={800}
         footer={null}
       >
-        {this.state.currentAssembleList.map(element =>{
+        {(this.state.currentAssembleList || []).map(element => {
           element.assemble_content = element.assembleContent;
-          return <SingleAssemble hitAssemble={element} searchpage={false}/>;
+          return <SingleAssemble hitAssemble={element} searchpage={false} />;
         }
         )}
       </Modal>
-      ]);
+    ]);
   }
 
   componentDidMount() {
     let echarts_instance = this.echarts_react.getEchartsInstance();
     let showModal = this.showModal;
-    echarts_instance.on('click', function(params) {
+    echarts_instance.on('click', function (params) {
       console.log(params);
-      if(params.dataType === 'node'){
+      if (params.dataType === 'node') {
         // this.setState({currentAssembleList: });
         showModal(params.data);
       }

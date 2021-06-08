@@ -36,7 +36,7 @@ class Dependencechart extends React.Component {
         {
           name: 'Les Miserables',
           type: 'graph',
-          layout: 'none',
+          layout: 'none', //none
           data: graph.nodes,
           links: dependenceList.map(dep => { // 优先使用id，其次是name
             return {

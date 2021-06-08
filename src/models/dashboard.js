@@ -51,34 +51,34 @@ export default {
     queryUseTime: '0ms',
   },
   subscriptions: {
-    setup ({ dispatch, history }) {
+    setup({ dispatch, history }) {
     }
   },
   effects: {
-    *getSubject(action, { put, call }){
+    *getSubject(action, { put, call }) {
       const [result, result1, result2] = yield [
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/domain/getDomainsGroupBySubject'
+          url: 'http://47.95.145.72:8087/domain/getDomainsGroupBySubject'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/statistics/countTopic'
+          url: 'http://47.95.145.72:8087/statistics/countTopic'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/statistics/countAssemble'
+          url: 'http://47.95.145.72:8087/statistics/countAssemble'
         })];
       const tmp = result.data.data;
       const subjectCount = tmp.length;
       let domainCount = 0;
       let options = [];
-      for(let subject of tmp){
+      for (let subject of tmp) {
         let temp = {};
         temp.value = subject.subjectId;
         temp.label = subject.subjectName;
         temp.children = [];
-        for(let domain of subject.domains){
+        for (let domain of subject.domains) {
           let t = {};
           t.value = domain.domainId;
           t.label = domain.domainName;
@@ -138,31 +138,31 @@ export default {
         }
       });
     },
-    *getRealSubject(action, {put, call}){
+    *getRealSubject(action, { put, call }) {
       //初始化首页 获得学科数据
       const [result, result1, result2] = yield [
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/domain/getDomainsGroupBySubject'
+          url: 'http://47.95.145.72:8087/domain/getDomainsGroupBySubject'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/statistics/countTopic'
+          url: 'http://47.95.145.72:8087/statistics/countTopic'
         }),
         call(axios, {
           method: 'get',
-          url: 'http://47.95.145.72:8083/statistics/countAssemble'
+          url: 'http://47.95.145.72:8087/statistics/countAssemble'
         })];
       const tmp = result.data.data;
       const subjectCount = tmp.length;
       let domainCount = 0;
       let options = [];
-      for(let subject of tmp){
+      for (let subject of tmp) {
         let temp = {};
         temp.value = subject.subjectId;
         temp.label = subject.subjectName;
         temp.children = [];
-        for(let domain of subject.domains){
+        for (let domain of subject.domains) {
           let t = {};
           t.value = domain.domainId;
           t.label = domain.domainName;
@@ -191,14 +191,14 @@ export default {
       yield put({
         type: 'updateDefaultSelect',
         payload: {
-          defaultSelect: [options[0].value, ]
+          defaultSelect: [options[0].value,]
         }
       });
 
       yield put({
         type: 'updateCurrentSubjectAndDomain',
         payload: {
-          currentSubjectAndDomain: [options[0].value, ]
+          currentSubjectAndDomain: [options[0].value,]
         }
       });
 
@@ -221,11 +221,23 @@ export default {
         }
       });
     },
-    *getGexf(action, {put, call }){
-      const result = yield call(axios, {
-        url: 'http://47.95.145.72:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
-        method: 'post'
-      });
+    *getGexf(action, { put, call }) {
+      let result;
+      if (action.payload.domainName === '数据结构') {
+        result = yield call(axios, {
+          url: 'http://47.95.145.72:8087/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
+          method: 'post'
+        });
+      } else {
+        result = yield call(axios, {
+          url: 'http://47.95.145.72:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
+          method: 'post'
+        });
+      }
+      // const result = yield call(axios, {
+      //   url: 'http://47.95.145.72:8083/dependency/getDependenciesByDomainNameSaveAsGexf?domainName=' + action.payload.domainName,
+      //   method: 'post'
+      // });
       yield put({
         type: 'updateGexf',
         payload: {
@@ -233,10 +245,10 @@ export default {
         }
       })
     },
-    *getSubjectGraph(action, { put, call} ){
+    *getSubjectGraph(action, { put, call }) {
       try {
         const result = yield call(axios, {
-          url: 'http://47.95.145.72:8083/subject/getSubjectGraphByName?subjectName=' + action.payload.subjectName,
+          url: 'http://47.95.145.72:8087/subject/getSubjectGraphByName?subjectName=' + action.payload.subjectName,
           method: 'get'
         });
         yield put({
@@ -245,7 +257,7 @@ export default {
             subjectkfdata: result.data.data
           }
         })
-      }catch (e) {
+      } catch (e) {
         yield put({
           type: 'updateSubjectGexf',
           payload: {
@@ -257,23 +269,23 @@ export default {
 
 
     },
-    *getAssembleCountByTopicId(action, { put, call }){
+    *getAssembleCountByTopicId(action, { put, call }) {
       const result = yield call(axios, {
-        url: 'http://47.95.145.72:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
+        url: 'http://47.95.145.72:8087/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
         method: 'get'
       });
       let topicList = result.data.data;
       let query = '';
-      for(let topic of topicList){
+      for (let topic of topicList) {
         query += 'topicIds=' + topic.topicId + '&';
       }
       const result1 = yield call(axios, {
-        url: 'http://47.95.145.72:8083/statistics/countAssembleGroupByTopicIds?' + query,
+        url: 'http://47.95.145.72:8087/statistics/countAssembleGroupByTopicIds?' + query,
         method: 'get'
       });
       let assembleCount = result1.data.data;
       let tmpList = [];
-      for(let topic of topicList){
+      for (let topic of topicList) {
         let tmp = {};
         tmp.name = topic.topicName;
         tmp['知识单元'] = assembleCount[topic.topicId];
@@ -286,23 +298,23 @@ export default {
         }
       })
     },
-    *getFirstLayerFacetGroupByTopicIds(action, { put, call }){
+    *getFirstLayerFacetGroupByTopicIds(action, { put, call }) {
       const result = yield call(axios, {
-        url: 'http://47.95.145.72:8083/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
+        url: 'http://47.95.145.72:8087/topic/getTopicsByDomainId?domainId=' + action.payload.domainId,
         method: 'get'
       });
       let topicList = result.data.data;
       let query = '';
-      for(let topic of topicList){
+      for (let topic of topicList) {
         query += 'topicIds=' + topic.topicId + '&';
       }
       const result1 = yield call(axios, {
-        url: 'http://47.95.145.72:8083/statistics/countFirstLayerFacetGroupByTopicIds?' + query,
+        url: 'http://47.95.145.72:8087/statistics/countFirstLayerFacetGroupByTopicIds?' + query,
         method: 'get'
       });
       let firstLayerCount = result1.data.data;
       let tmpList = [];
-      for(let topic of topicList){
+      for (let topic of topicList) {
         let tmp = {};
         tmp.name = topic.topicName;
         tmp['属性'] = firstLayerCount[topic.topicId];
@@ -315,19 +327,19 @@ export default {
         }
       })
     },
-    *getTopicCountGroupByDomainId(action, { put, call }){
+    *getTopicCountGroupByDomainId(action, { put, call }) {
       const domains = action.payload.domains;
       let query = '';
-      for(let domain of domains){
+      for (let domain of domains) {
         query += 'domainIds=' + domain.value + '&';
       }
       const result = yield call(axios, {
-        url: 'http://47.95.145.72:8083/statistics/countTopicGroupByDomainIds?' + query,
+        url: 'http://47.95.145.72:8087/statistics/countTopicGroupByDomainIds?' + query,
         method: 'get'
       });
       let topicCount = result.data.data;
       let tmpList = [];
-      for(let domain of domains){
+      for (let domain of domains) {
         let tmp = {};
         tmp.name = domain.label;
         tmp['知识主题'] = topicCount[domain.value];
@@ -340,19 +352,19 @@ export default {
         }
       })
     },
-    *getAssembleCountByDomainId(action, { put, call }){
+    *getAssembleCountByDomainId(action, { put, call }) {
       const domains = action.payload.domains;
       let query = '';
-      for(let domain of domains){
+      for (let domain of domains) {
         query += 'domainIds=' + domain.value + '&';
       }
       const result = yield call(axios, {
-        url: 'http://47.95.145.72:8083/statistics/countAssembleGroupByDomainIds?' + query,
+        url: 'http://47.95.145.72:8087/statistics/countAssembleGroupByDomainIds?' + query,
         method: 'get'
       });
       let assembleCount = result.data.data;
       let tmpList = [];
-      for(let domain of domains){
+      for (let domain of domains) {
         let tmp = {};
         tmp.name = domain.label;
         tmp['知识单元'] = assembleCount[domain.value];
@@ -365,7 +377,7 @@ export default {
         }
       })
     },
-    *getQuery(action, { put, call }){
+    *getQuery(action, { put, call }) {
 
 
       yield put({
@@ -425,14 +437,14 @@ export default {
 
       yield put({
         type: 'updateQueryPage',
-        payload:{
+        payload: {
           queryPage: action.payload.queryPage
         }
       });
     }
   },
   reducers: {
-    add(state, action){
+    add(state, action) {
       return {
         ...state, figurecard: [
           {
@@ -459,45 +471,45 @@ export default {
         ]
       }
     },
-    updateSelect(state, action){
+    updateSelect(state, action) {
       return {
         ...state, options: action.payload.options
       }
     },
-    updateGexf(state, action){
+    updateGexf(state, action) {
       return {
         ...state, kfdata: action.payload.kfdata
       }
     },
-    updateSubjectGexf(state, action){
+    updateSubjectGexf(state, action) {
       return {
         ...state, subjectkfdata: action.payload.subjectkfdata
       }
     },
-    updateDefaultSelect(state, action){
+    updateDefaultSelect(state, action) {
       return {
         ...state, defaultSelect: action.payload.defaultSelect
       }
     },
-    updateCurrentSubjectAndDomain(state, action){
+    updateCurrentSubjectAndDomain(state, action) {
       const subjectAndDomain = state.options;
       const currentSubjectAndDomain = action.payload.currentSubjectAndDomain;
       let tmp = [];
       switch (currentSubjectAndDomain.length) {
         case 1:
-          for(let subject of subjectAndDomain){
-            if(subject.value === currentSubjectAndDomain[0]){
+          for (let subject of subjectAndDomain) {
+            if (subject.value === currentSubjectAndDomain[0]) {
               tmp.push(subject.label);
               break;
             }
           }
           break;
         case 2:
-          for(let subject of subjectAndDomain){
-            if(subject.value === currentSubjectAndDomain[0]){
+          for (let subject of subjectAndDomain) {
+            if (subject.value === currentSubjectAndDomain[0]) {
               tmp.push(subject.label);
-              for(let domain of subject.children){
-                if(domain.value === currentSubjectAndDomain[1]){
+              for (let domain of subject.children) {
+                if (domain.value === currentSubjectAndDomain[1]) {
                   tmp.push(domain.label);
                   break;
                 }
@@ -513,99 +525,99 @@ export default {
         ...state, currentSubjectAndDomain: tmp
       }
     },
-    updateAssembleCountGroupByTopicId(state, action){
+    updateAssembleCountGroupByTopicId(state, action) {
       return {
         ...state, assembleCountGroupByTopicId: action.payload.assembleCountGroupByTopicId
       }
     },
-    updateFirstLayerFacetCountGroupByTopicId(state, action){
+    updateFirstLayerFacetCountGroupByTopicId(state, action) {
       return {
         ...state, firstLayerFacetCountGroupByTopicId: action.payload.firstLayerFacetCountGroupByTopicId
       }
     },
-    updateTopicCountGroupByDomainId(state, action){
+    updateTopicCountGroupByDomainId(state, action) {
       return {
         ...state, topicCountGroupByDomainId: action.payload.topicCountGroupByDomainId
       }
     },
-    updateAssembleCountGroupByDomainId(state, action){
+    updateAssembleCountGroupByDomainId(state, action) {
       return {
         ...state, assembleCountGroupByDomainId: action.payload.assembleCountGroupByDomainId
       }
     },
-    updateQueryString(state, action){
+    updateQueryString(state, action) {
       return {
         ...state, queryString: action.payload.queryString
       }
     },
-    updateQuerySubjectName(state, action){
+    updateQuerySubjectName(state, action) {
       return {
         ...state, querySubjectName: action.payload.querySubjectName
       }
     },
-    updateQueryDomainName(state, action){
+    updateQueryDomainName(state, action) {
       return {
         ...state, queryDomainName: action.payload.queryDomainName
       }
     },
-    updateQueryTopicName(state, action){
+    updateQueryTopicName(state, action) {
       return {
         ...state, queryTopicName: action.payload.queryTopicName
       }
     },
-    updateQueryFacetName(state, action){
+    updateQueryFacetName(state, action) {
       return {
         ...state, queryFacetName: action.payload.queryFacetName
       }
     },
-    updateQueryFacetLayer(state, action){
+    updateQueryFacetLayer(state, action) {
       return {
         ...state, queryFacetLayer: action.payload.queryFacetLayer
       }
     },
-    updateQueryAssembleSource(state, action){
+    updateQueryAssembleSource(state, action) {
       return {
         ...state, queryAssembleSource: action.payload.queryAssembleSource
       }
     },
-    updateQueryAssembleType(state, action){
+    updateQueryAssembleType(state, action) {
       return {
         ...state, queryAssembleType: action.payload.queryAssembleType
       }
     },
-    updateQueryPage(state, action){
+    updateQueryPage(state, action) {
       return {
         ...state, queryPage: action.payload.queryPage
       }
     },
-    updateQuerySize(state, action){
+    updateQuerySize(state, action) {
       return {
         ...state, querySize: action.payload.querySize
       }
     },
-    updateQueryAssembleResult(state, action){
+    updateQueryAssembleResult(state, action) {
       return {
         ...state, queryAssembleResult: action.payload.queryAssembleResult
       }
     },
-    updateQueryFilterResult(state, action){
+    updateQueryFilterResult(state, action) {
       return {
         ...state, queryFilterResult: action.payload.queryFilterResult
       }
     },
-    updateQueryCount(state, action){
+    updateQueryCount(state, action) {
       return {
         ...state, queryCount: action.payload.queryCount
       }
     },
-    updateQueryUseTime(state, action){
+    updateQueryUseTime(state, action) {
       return {
         ...state, queryUseTime: action.payload.queryUseTime
       }
     },
-    updateQueryAll(state, action){
-      return{
-        ...state, queryString: action.payload.queryString, querySubjectName: action.payload.querySubjectName,queryDomainName: action.payload.queryDomainName,queryTopicName: action.payload.queryTopicName,queryFacetName: action.payload.queryFacetName,queryAssembleSource: action.payload.queryAssembleSource,queryAssembleType: action.payload.queryAssembleType
+    updateQueryAll(state, action) {
+      return {
+        ...state, queryString: action.payload.queryString, querySubjectName: action.payload.querySubjectName, queryDomainName: action.payload.queryDomainName, queryTopicName: action.payload.queryTopicName, queryFacetName: action.payload.queryFacetName, queryAssembleSource: action.payload.queryAssembleSource, queryAssembleType: action.payload.queryAssembleType
       }
     }
   }

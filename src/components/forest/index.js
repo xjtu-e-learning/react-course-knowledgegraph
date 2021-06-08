@@ -23,6 +23,7 @@ class Forest extends React.Component {
     let data = currentSubjectAndDomain.length === 2 ? kfdata : subjectkfdata;
     if(data === '') return null;
     let graph = dataTool.gexf.parse(data);
+    console.log('---', graph);
     let categories = [];
     let communityCount = 0;
 

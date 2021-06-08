@@ -18,6 +18,17 @@ class Topicextract extends React.Component {
     const { extractState } = this.props.construct;
     const { dispatch } = this.props;
     if (currentSubjectAndDomain.length === 2 && extractState === 'start') {
+      if(currentSubjectAndDomain[1].indexOf('数据结构')!== -1) // 这么写真是日了狗了
+      {
+        dispatch({
+          type: 'construct/getGexfTopics',
+          payload: {
+            gexf: this.props.dashboard.kfdata
+          }
+        })
+        return;
+      }
+
       dispatch({
         type: 'construct/getTopics',
         payload: {

@@ -20,6 +20,16 @@ class Dependencemining extends React.Component {
     const { dispatch } = this.props;
     const {miningState} = this.props.construct;
     if(currentSubjectAndDomain.length === 2 && miningState === 'start'){
+      if(currentSubjectAndDomain[1].indexOf('数据结构')!== -1) // 这么写真是日了狗了
+      {
+        dispatch({
+          type: 'construct/getGexfDependencies',
+          payload: {
+            gexf: this.props.dashboard.kfdata
+          }
+        })
+        return;
+      }
       dispatch({
         type: 'construct/getDependences',
         payload: {
@@ -40,9 +50,10 @@ class Dependencemining extends React.Component {
   }
 
   render() {
-    const { currentSubjectAndDomain, options, kfdata } = this.props.dashboard;
+    const { currentSubjectAndDomain, options, kfdata, subjectkfdata } = this.props.dashboard;
     if(currentSubjectAndDomain.length !== 2 || options.length === 0) return null;
     const { topicList, miningState, dependenceList, step } = this.props.construct;
+
     return (
       <div>
         <div style={{marginBottom: 16}}>
